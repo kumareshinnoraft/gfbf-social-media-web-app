@@ -54,7 +54,7 @@ class User
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $lastActiveTime = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Like::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Likes::class)]
     private Collection $likes;
 
     public function __construct()
@@ -225,14 +225,14 @@ class User
     }
 
     /**
-     * @return Collection<int, Like>
+     * @return Collection<int, Likes>
      */
     public function getLikes(): Collection
     {
         return $this->likes;
     }
 
-    public function addLike(Like $like): self
+    public function addLike(Likes $like): self
     {
         if (!$this->likes->contains($like)) {
             $this->likes->add($like);
@@ -242,7 +242,7 @@ class User
         return $this;
     }
 
-    public function removeLike(Like $like): self
+    public function removeLike(Likes $like): self
     {
         if ($this->likes->removeElement($like)) {
             // set the owning side to null (unless already changed)

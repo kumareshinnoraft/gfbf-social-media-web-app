@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Like;
+use App\Entity\Likes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Like>
+ * @extends ServiceEntityRepository<Likes>
  *
- * @method Like|null find($id, $lockMode = null, $lockVersion = null)
- * @method Like|null findOneBy(array $criteria, array $orderBy = null)
- * @method Like[]    findAll()
- * @method Like[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Likes|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Likes|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Likes[]    findAll()
+ * @method Likes[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LikeRepository extends ServiceEntityRepository
+class LikesRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Like::class);
+        parent::__construct($registry, Likes::class);
     }
 
-    public function save(Like $entity, bool $flush = false): void
+    public function save(Likes $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class LikeRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Like $entity, bool $flush = false): void
+    public function remove(Likes $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class LikeRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Like[] Returns an array of Like objects
+//     * @return Likes[] Returns an array of Likes objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class LikeRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Like
+//    public function findOneBySomeField($value): ?Likes
 //    {
 //        return $this->createQueryBuilder('l')
 //            ->andWhere('l.exampleField = :val')

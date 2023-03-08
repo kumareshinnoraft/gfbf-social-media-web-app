@@ -159,13 +159,16 @@ hr {
   border-radius: 15px;
   padding: 30px;
   margin: 0 auto;
-
   transition: box-shadow 0.3s ease-in-out;
   box-shadow: 0px 0px 25px #d9d9d9;
 }
 
 .cardPost:hover {
   box-shadow: 0px 0px 25px #E7153A;
+}
+
+.errorPostArea{
+  color: red;
 }
 
 .header {
@@ -209,8 +212,8 @@ hr {
 .likcmt button {
   border: none;
   background-color: white;
-  padding-left: 45px;
-  padding-right: 45px;
+  /* padding-left: 45px;
+  padding-right: 45px; */
   padding-top: 10px;
   padding-bottom: 12px;
 }
@@ -219,6 +222,13 @@ hr {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 113%;
+}
+
+.postAreaWithError {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
 }
 
 #like {
@@ -226,16 +236,16 @@ hr {
 }
 
 #share {
-  border-left: 1px solid #E7153A;
+  /* border-left: 1px solid #E7153A; */
 }
 
 .likeCount {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-left: 50px;
-  padding-right: 50px;
-  border-right: 1px solid #E7153A;
+  /* padding-left: 50px;
+  padding-right: 50px; */
+  /* border-right: 1px solid #E7153A; */
   cursor: pointer;
 }
 
@@ -246,12 +256,13 @@ hr {
   color: #E7153A;
 }
 
-#likeBtn {
+.likeBtn {
   height: 50px;
   width: 50px;
+  display: none;
 }
 
-#dislikeBtn {
+.dislikeBtn {
   height: 30px;
   width: 30px;
   margin: 10px;
@@ -307,7 +318,7 @@ hr {
   cursor: pointer;
 }
 
-#closeMenu {
+.closeMenu {
   cursor: pointer;
   display: none;
 }
@@ -391,9 +402,11 @@ hr {
 #commentForm {
   display: flex;
   justify-content: center;
+  width: 70%;
+  margin: 0 auto;
 }
 
-#comment {
+.comment {
   width: 70%;
   border-radius: 25px;
   margin-bottom: 5px;
@@ -435,6 +448,7 @@ hr {
 
 .commentInputArea input {
   margin: 0 auto;
+  border-radius: 30px;
 }
 
 .commentInputArea input:focus {
@@ -466,9 +480,14 @@ hr {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 0.6rem;
   border: none;
+  margin-left: 5px;
 }
 
-#commentHide {
+button:focus {
+  outline: none;
+}
+
+.commentHide {
   display: none;
   border: none;
   outline: none;

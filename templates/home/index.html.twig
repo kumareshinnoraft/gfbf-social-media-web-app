@@ -9,165 +9,173 @@
 {% endblock %}
 
 {% block body %}
-		<div id="leftLoader"></div>
-		<div id="rightLoader"></div>
-		<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
-			<div class="container-fluid">
-				<div class="logo">
-					<img src="./img/appLogo.png" height="60" width="60" alt="logo" srcset="">
-					<h4>GFBF</h4>
-				</div>
-				<div class="collapse navbar-collapse" id="navbarNav">
-					<ul class="navbar-nav ml-auto">
-						<li class="list-group-item">
-							<img class="profile" src="{{asset('img/dp2.png')}}" height="35" width="35" alt="">
-							<ul class="list-group subMenuProfile">
-								<li class="list-group-item">
-									<a href="">Profile</a>
-								</li>
-								<li class="list-group-item">
-									<a href="/resetPassword">Change Password</a>
-								</li>
-								<li class="list-group-item">
-									<a id="deleteBtn" href="/logout">Logout</a>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</div>
+	<div id="leftLoader"></div>
+	<div id="rightLoader"></div>
+	<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+		<div class="container-fluid">
+			<div class="logo">
+				<img src="./img/appLogo.png" height="60" width="60" alt="logo" srcset="">
+				<h4>GFBF</h4>
 			</div>
-		</nav>
-		<hr/>
-		<div class="container-fluid content">
-			<div class="row">
-				<div class="col-md-3 active-users">
-					<ul class="list-group active-users-content">
-
-						{% set k = 10 %}
-						{% for i in range(1, k) %}
-							<li class="list-group-item active-users-skeleton">
-								<div class="skeleton">
-									<div class="skeleton-left flex1 \">
-										<div class="square circle"></div>
-									</div>
-									<div class="skeleton-right flex2">
-										<div class="line h17"></div>
-									</div>
-								</div>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto">
+					<li class="list-group-item">
+						<img class="profile" src="{{asset('img/dp2.png')}}" height="35" width="35" alt="">
+						<ul class="list-group subMenuProfile">
+							<li class="list-group-item">
+								<a href="">Profile</a>
 							</li>
-						{% endfor %}
+							<li class="list-group-item">
+								<a href="/resetPassword">Change Password</a>
+							</li>
+							<li class="list-group-item">
+								<a id="deleteBtn" href="/logout">Logout</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<hr/>
+	<div class="container-fluid content">
+		<div class="row">
+			<div class="col-md-3 active-users">
+				<ul class="list-group active-users-content">
 
-					</ul>
-				</div>
-				<div class="vertical"></div>
-				{# Strating Feed #}
-				<div class="col-md-9 feed">
-					<ul
-						class="list-group">
-						{# POST Content #}
-						<li class="list-group-item">
-							<form id="postForm" action="">
-								<textarea class="form-control shadow" name="post" placeholder="What's on your mind..." id="postText" cols="40" rows="5"></textarea>
-								<button class="shadow" form="postForm" type="submit" id="postBtn">Post</button>
-							</form>
-						</li>
-						{# Real post #}
-						<li class="list-group-item post-content">
-							<div class="cardPost">
-								<div class="header">
-									<div class="imgName">
-										<img src="{{asset('img/dp2.png')}}" height="35" width="35" alt="">
-										<h4>Kumaresh Baksi</h4>
-									</div>
-									<div class="menu">
-										<img id="menu" src="./img/menu.png" height="22" width="22" alt="">
-										<img id="closeMenu" src="./img/closeBtn.png" height="22" width="22" alt="">
-
-										<ul class="list-group subMenuForPost">
-											<li class="list-group-item">
-												<a id="deleteBtn" href="">Delete Post</a>
-											</li>
-										</ul>
-									</div>
+					{% set k = 10 %}
+					{% for i in range(1, k) %}
+						<li class="list-group-item active-users-skeleton">
+							<div class="skeleton">
+								<div class="skeleton-left flex1 \">
+									<div class="square circle"></div>
 								</div>
-								<hr id="postBorder">
-								<div class="contentPost">
-									<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, in.</p>
-								</div>
-								<hr id="postBorder">
-								<div class="likcmt">
-									<div class="likeCount">
-										<img src="./img/like.png" id="likeBtn" alt="">
-										<img src="./img/dislike.png" id="dislikeBtn" alt="">
-										<p id="count">0</p>
-									</div>
-									<div class="CommentArea">
-										<button id="comment">Comment</button>
-										<button id="commentHide">Hide</button>
-									</div>
-									<button id="share">Share</button>
+								<div class="skeleton-right flex2">
+									<div class="line h17"></div>
 								</div>
 							</div>
-							<div class="shadow commentSection">
-								<div class="commentInputArea">
-									<form action="" id="commentForm">
-										<input class="form-control shadow" id="comment" placeholder="Type your comment" maxlength="100" name="comment" type="text"/>
-										<button class="shadow" form="commentForm" type="submit" id="commentPost">post</button>
-									</form>
-								</div>
-								<div class="commentViewArea">
-									<div class="commnets">
-										<ul class="list-group">
-											<li class="list-group-item">
-												<div class="shadow commentCard">
-													<div class="nameImg">
-														<img src="{{asset('img/dp2.png')}}" id="personBtn" width="25px" height="25px" alt="">
-														<h4>Kumaresh Baksi</h4>
-													</div>
-													<div class="commentCardText">
-														<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,</p>
-													</div>
-												</div>
-											</li>
-											<ul></div>
-										</div>
-									</li>
-									{# Skeleton POST #}
+						</li>
+					{% endfor %}
 
-									{% set k = 10 %}
-									{% for i in range(1, k) %}
-										<li class="list-group-item post-skeleton">
-											<div class="shadow  card">
-												<div class="skeletonHeader">
-													<div class="img"></div>
-													<div class="details">
-														<span class="name"></span>
-													</div>
+				</ul>
+			</div>
+			<div class="vertical"></div>
+			{# Strating Feed #}
+			<div class="col-md-9 feed">
+				<ul
+					class="list-group post-content-list">
+					{# POST Content #}
+					<li class="list-group-item">
+						<div class="postAreaWithError">
+							<span id="postArea" class="errorPostArea"></span>
+							<form id="postForm" action="" method="post">
+								<textarea class="form-control shadow" name="postContent" placeholder="What's on your mind..." id="postText" cols="40" rows="5" required></textarea>
+								<button class="shadow" form="postForm" type="submit" id="postBtn">Post</button>
+							</form>
+						</div>
+					</li>
+
+					{# Skeleton POST #}
+
+					{% set k = 10 %}
+					{% for i in range(1, k) %}
+						<li class="list-group-item post-skeleton">
+							<div class="shadow  card">
+								<div class="skeletonHeader">
+									<div class="img"></div>
+									<div class="details">
+										<span class="name"></span>
+									</div>
+								</div>
+								<div class="description">
+									<div class="line line-1"></div>
+									<div class="line line-2"></div>
+									<div class="line line-3"></div>
+								</div>
+								<div class="btns">
+									<div class="btn btn-1"></div>
+									<div class="btn btn-2"></div>
+									<div class="btn btn-3"></div>
+								</div>
+							</div>
+						</li>
+					{% endfor %}  
+
+					{# Real post #}
+					<li class="list-group-item post-content">
+						{# <div class="cardPost">
+							<div class="header">
+								<div class="imgName">
+									<img src="{{asset('img/dp2.png')}}" height="35" width="35" alt="">
+									<h4>Kumaresh Baksi</h4>
+								</div>
+								<div class="menu">
+									<img id="menu" src="./img/menu.png" height="22" width="22" alt="">
+									<img id="closeMenu" src="./img/closeBtn.png" height="22" width="22" alt="">
+
+									<ul class="list-group subMenuForPost">
+										<li class="list-group-item">
+											<a id="deleteBtn" href="">Delete Post</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<hr id="postBorder">
+							<div class="contentPost">
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, in.</p>
+							</div>
+							<hr id="postBorder">
+							<div class="likcmt">
+								<div class="likeCount">
+									<img src="./img/like.png" class="likeBtn" alt="">
+									<img src="./img/dislike.png" class="dislikeBtn" alt="">
+									<p id="count" class="count">0</p>
+								</div>
+								<div class="CommentArea">
+									<button class="comment">Comment</button>
+									<button class="commentHide">Hide</button>
+								</div>
+								<button id="share">Share</button>
+							</div>
+						</div>
+						<div class="shadow commentSection">
+							<div class="commentInputArea">
+								<form action="" id="commentForm">
+									<input class="form-control shadow" id="comment" placeholder="Type your comment" maxlength="100" name="comment" type="text"/>
+									<button class="shadow" form="commentForm" type="submit" id="commentPost">post</button>
+								</form>
+							</div>
+							<div class="commentViewArea">
+								<div class="commnets">
+									<ul class="list-group">
+										<li class="list-group-item">
+											<div class="shadow commentCard">
+												<div class="nameImg">
+													<img src="{{asset('img/dp2.png')}}" id="personBtn" width="25px" height="25px" alt="">
+													<h4>Kumaresh Baksi</h4>
 												</div>
-												<div class="description">
-													<div class="line line-1"></div>
-													<div class="line line-2"></div>
-													<div class="line line-3"></div>
-												</div>
-												<div class="btns">
-													<div class="btn btn-1"></div>
-													<div class="btn btn-2"></div>
-													<div class="btn btn-3"></div>
+												<div class="commentCardText">
+													<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,</p>
 												</div>
 											</div>
 										</li>
-									{% endfor %}
+										<ul></div>
+									</div>
+								</li> #}
 
-								</ul>
-							</li>
+							</ul>
 						</li>
 					</li>
-				</div>
-				<div class="vertical2"></div>
+				</li>
 			</div>
-		</div>
+			<div class="vertical2"></div>
+		</li>
+	</div>
+</div>
 {% endblock %}
+
 {% block js %}
-	{{ parent() }}<script src="{{asset('js/HomeScript.js')}}"></script>
-	<script src="{{asset('js/methods.js')}}"></script>
+{{ parent() }}
+<script src="{{asset('js/home/HomeScript.js')}}"></script>
+<script src="{{asset('js/home/SocketScript.js')}}"></script>
 {% endblock %}

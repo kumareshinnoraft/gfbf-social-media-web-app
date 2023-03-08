@@ -1,6 +1,7 @@
 var inputFullName = document.getElementById("fullName");
 var inputEmail = document.getElementById("email");
 var inputPassword = document.getElementById("password");
+var postArea = document.getElementById("postText");
 
 var regexFullName = /^[a-z]+( [a-z]+)+/i;
 var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -62,6 +63,23 @@ if (inputPassword != null) {
     } else {
       errorPassword.textContent = "";
       $('#submit').removeAttr('disabled');
+    }
+  });
+}
+
+if (postArea != null) {
+  postArea.addEventListener("input", () => {
+    const value = postArea.value.trim();
+    const errorPostArea = document.getElementById("postArea");
+    if (value.length == 0) {
+      errorPostArea.textContent = "Post should not be empty.";
+      $('#postBtn').attr('disabled', 'disabled');
+    } else if (value.length > 100 || value.length < 10) {
+      errorPostArea.textContent = "Maximum 100 characters and minimum 10 characters allowed";
+      $('#postBtn').attr('disabled', 'disabled');
+    } else {
+      errorPostArea.textContent = "";
+      $('#postBtn').removeAttr('disabled');
     }
   });
 }

@@ -6,6 +6,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use App\Service\UserService;
+use App\Entity\Post;
+use App\Entity\User;
 use SplObjectStorage;
 use Exception;
 
@@ -33,12 +35,12 @@ class ActiveUsers implements MessageComponentInterface
    */
   private $userService;
   /**
-   * Active users array contains all the active users that will be broadcasted
-   * to the client side.
-   *
-   * @var array
+   * Entity Manager class object that manages the persistence and 
+   * retrieval of entity objects from the database.
+   * 
+   * @var object
    */
-  private $activeUsers = [];
+  public $em;
   /**
    * Email is contained the users unique id which will is received when from the
    * client side and this will be used to fetch other information from Database.
@@ -46,6 +48,18 @@ class ActiveUsers implements MessageComponentInterface
    * @var string
    */
   private $email;
+  /**
+   * Post is basically fetching the updated post for informing all connections.
+   *
+   * @var object
+   */
+  private $postTable;
+  /**
+   * Post is basically fetching the updated post for informing all connections.
+   *
+   * @var object
+   */
+  private $userTable;
   /**
    * Constructor is called in the Command constructor and it initializes
    * spl objects storage.
@@ -61,7 +75,10 @@ class ActiveUsers implements MessageComponentInterface
   public function __construct(EntityManagerInterface $entityManager)
   {
     $this->connections = new SplObjectStorage;
-    $this->userService = new UserService($entityManager);
+    $this->userService = new UserService;
+    $this->em = $entityManager;
+    $this->postTable = $entityManager->getRepository(Post::class);
+    $this->userTable = $entityManager->getRepository(User::class);
   }
   /**
    * This function takes an array of connections and on open it attaches the
@@ -77,7 +94,6 @@ class ActiveUsers implements MessageComponentInterface
   {
     $this->connections->attach($conn);
   }
-
   /**
    * This function provides message from the client connection and sends message
    * to the sender.
@@ -99,7 +115,6 @@ class ActiveUsers implements MessageComponentInterface
     // If email is not NULL, fetch the user's details and BROADCAST them
     // through all the connections.
     if ($this->email) {
-      $this->activeUsers = $this->userService->getUserByEmail($this->email);
       $this->broadcastActiveUsers();
     }
   }
@@ -148,17 +163,13 @@ class ActiveUsers implements MessageComponentInterface
    */
   private function broadcastActiveUsers()
   {
-    // Construct a message containing the updated list of active users.
-    $message = [
-      'type' => 'active-users',
-      'data' => [
-        'users' => $this->activeUsers
-      ]
-    ];
-
     // Broadcast the message to all connected clients.
     foreach ($this->connections as $client) {
-      $client->send(json_encode($message));
+      $client->send(json_encode($this->userService->getUserByEmail($this->email, $this->userTable, $this->em)));
+      $client->send(json_encode($this->userService->getPosts($this->postTable)));
+      
+      // TODO: To let other users know in real time in the likes and dislike counts.
+      // $client->send(json_encode($this->userService->getLikeCount($this->postTable)));
     }
   }
 }

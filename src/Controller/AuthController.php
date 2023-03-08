@@ -53,7 +53,12 @@ class AuthController extends AbstractController
    * @var object
    */
   private $performOperation;
-
+  /**
+   * This user table object is used to point users database tables.
+   * 
+   * @var object
+   */
+  private $userTable;
   /**
    * This is the object of User class which is a entity having setter and 
    * getter methods.
@@ -110,8 +115,9 @@ class AuthController extends AbstractController
     $this->cryptography     = new Cryptography();
     $this->performOperation = new PerformedOperations();
     $this->cookie           = new Cookie();
-    $this->user             = new User();
     $this->sendMail         = new SendEmail();
+    $this->user             = new User();
+    $this->userTable        = $em->getRepository(User::class);
   }
   /**
    * This register routes validate user inserted data and calls for
@@ -129,10 +135,9 @@ class AuthController extends AbstractController
   public function register(Request $request): Response
   {
     if ($this->cookie->isActive($request)) {
+      
       return $this->redirectToRoute('home');
-    }
-
-    if ($request->request->all()) {
+    } elseif ($request->request->all()) {
 
       // Storing all incoming values in variables
       $fullName = $request->request->get('fullName');
@@ -141,7 +146,7 @@ class AuthController extends AbstractController
       $gender   = $request->request->get('gender');
       $userName = substr($email, 0, strrpos($email, '@'));
 
-      $checkUserEmail = $this->em->getRepository(User::class)->findOneBy(['email' => $email]);
+      $checkUserEmail = $this->userTable->findOneBy(['email' => $email]);
 
       // If mail is already exists show this message.
       if ($checkUserEmail) {
@@ -207,7 +212,7 @@ class AuthController extends AbstractController
       $email    = $request->request->get('email');
       $password = $request->request->get('password');
 
-      $userRow = $this->em->getRepository(User::class)->findOneBy(['email' => $email]);
+      $userRow = $this->userTable->findOneBy(['email' => $email]);
 
       if (!$userRow) {
         return new JsonResponse(['msg' => AuthController::USER_NOT_FOUND]);
@@ -252,7 +257,7 @@ class AuthController extends AbstractController
     $decodedId = $this->cryptography->decode($id . "%3D");
 
     // Find the user row from the table with the id of the user.
-    $selectedRow = $this->em->getRepository(User::class)->findOneBy(['id' => $decodedId]);
+    $selectedRow = $this->userTable->findOneBy(['id' => $decodedId]);
 
     // If the user is not null then fetch the email of the user and store it
     // in the cookie.
@@ -276,7 +281,7 @@ class AuthController extends AbstractController
     $encodedPassword = $this->cryptography->encode($newPassword);
 
     // If password is inserted then fetch the row again from the database.
-    $userSelectedRow = $this->em->getRepository(User::class)->findOneBy(['email' => $email]);
+    $userSelectedRow = $this->userTable->findOneBy(['email' => $email]);
 
     // Checks if user exits then encode the password and update the database.
     if ($userSelectedRow && $password == $newPassword) {
@@ -320,7 +325,7 @@ class AuthController extends AbstractController
 
       $email = $request->request->get('email');
       // Get the row of user with email.
-      $userRow = $this->em->getRepository(USER::class)->findOneBy(['email' => $email]);
+      $userRow = $this->userTable->findOneBy(['email' => $email]);
 
       if (!$userRow) {
         // If userRow is not present, returns user not found.
@@ -358,7 +363,7 @@ class AuthController extends AbstractController
 
     // Fetch the email from cookie.
     $email   = $this->cookie->getCookie("email", $request);
-    $userRow = $this->em->getRepository(USER::class)->findOneBy(['email' => $email]);
+    $userRow = $this->userTable->findOneBy(['email' => $email]);
 
     // Getting the latest OTP value from database.
     $sentOtp = $userRow->getOtp();
@@ -399,7 +404,7 @@ class AuthController extends AbstractController
     if ($this->sendMail->sendEmail($email, $otp, AuthController::MESSAGE_SENT)) {
 
       // Update the database with opt and time.
-      $userRow = $this->em->getRepository(USER::class)->findOneBy(['email' => $email]);
+      $userRow = $this->userTable->findOneBy(['email' => $email]);
 
       if ($userRow) {
         // Update in the new OTP and time in the database.
@@ -452,7 +457,6 @@ class AuthController extends AbstractController
  * 
  * forget password - Done
  * Login -Done
- *
  * Code redundancy from JS pages. - Done
  * Adding Logout feature - Done
  * store cookies to make user is login - Done
@@ -463,5 +467,7 @@ class AuthController extends AbstractController
  * Track online users - Done
  * 
  * Create Databases - Done
- * Create Post - Working
+ * Create Post with comments as well - Working
+ * Make allow user to like and comment - Working
+ * I will make code more fluent.
  */

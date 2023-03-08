@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -35,7 +36,7 @@ class Post
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class)]
     private Collection $comments;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Like::class)]
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Likes::class)]
     private Collection $likes;
 
     public function __construct()
@@ -137,16 +138,23 @@ class Post
 
         return $this;
     }
+    public function setPostsData(string $content, mixed $imageName, DateTime $createdAt, DateTime $updatedAt, object $user) {
+      $this->setContent($content);
+      $this->setImage($imageName);
+      $this->setCreatedAt($createdAt);
+      $this->setUpdatedAt($updatedAt);
+      $this->setUser($user);
+    }
 
     /**
-     * @return Collection<int, Like>
+     * @return Collection<int, Likes>
      */
     public function getLikes(): Collection
     {
         return $this->likes;
     }
 
-    public function addLike(Like $like): self
+    public function addLike(Likes $like): self
     {
         if (!$this->likes->contains($like)) {
             $this->likes->add($like);
@@ -156,7 +164,7 @@ class Post
         return $this;
     }
 
-    public function removeLike(Like $like): self
+    public function removeLike(Likes $like): self
     {
         if ($this->likes->removeElement($like)) {
             // set the owning side to null (unless already changed)
