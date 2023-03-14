@@ -32,8 +32,8 @@ class Cookie
    */
   public function __construct()
   {
-    $this->request      = new Request();
     $this->cryptography = new Cryptography();
+    $this->request      = new Request();
   }
   /**
    * Set cookie function se the cookie in a serialized form.

@@ -41,7 +41,7 @@ class SendEmail
       $mail->isSMTP();
 
       // Setting host
-      $mail->Host     =  $_ENV['MAILER_HOST'];
+      $mail->Host     = $_ENV['MAILER_HOST'];
       $mail->SMTPAuth = TRUE;
 
       // Setting username and password from GMAIL SMTP server

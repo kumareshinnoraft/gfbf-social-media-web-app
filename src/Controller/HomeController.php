@@ -126,20 +126,19 @@ class HomeController extends AbstractController
    */
   public function __construct(EntityManagerInterface $em)
   {
-    $this->em               = $em;
-    $this->user             = new User();
-    $this->post             = new Post();
-    $this->like             = new Likes();
-    $this->cookie           = new Cookie();
-    $this->comment          = new Comment();
-    $this->cryptography     = new Cryptography();
-    $this->performOperation = new PerformedOperations();
+    $this->commentTable     = $em->getRepository(Comment::class);
+    $this->likeTable        = $em->getRepository(Likes::class);
     $this->userTable        = $em->getRepository(User::class);
     $this->postTable        = $em->getRepository(Post::class);
-    $this->likeTable        = $em->getRepository(Likes::class);
-    $this->commentTable     = $em->getRepository(Comment::class);
+    $this->performOperation = new PerformedOperations();
+    $this->cryptography     = new Cryptography();
+    $this->comment          = new Comment();
+    $this->cookie           = new Cookie();
+    $this->like             = new Likes();
+    $this->post             = new Post();
+    $this->user             = new User();
+    $this->em               = $em;
   }
-
   /**
    * Home controller is the main feed that will be shown to the user, at one
    * side of the screen online user's will be present and on the other side 
@@ -227,7 +226,6 @@ class HomeController extends AbstractController
 
       // Setting all posts data at once.
       $this->post->setPostsData($this->performOperation->sanitizeData($postContent), $imageName, new DateTime(), new DateTime(), $user);
-
       try {
         $this->em->persist($this->post);
         $this->em->flush();
@@ -283,7 +281,6 @@ class HomeController extends AbstractController
     $this->em->persist($this->like);
     $this->em->persist($this->post);
     $this->em->flush();
-
     return new JsonResponse(['likesList' => $this->performOperation->likes($this->post)]);
   }
   /**
@@ -342,7 +339,6 @@ class HomeController extends AbstractController
     if ($commentContent === '') {
       return new JsonResponse(['comment' => FALSE]);
     }
-
     $this->comment->setComment($this->performOperation->sanitizeData($commentContent), new DateTime(), new DateTime(), $this->user, $this->post);
     $this->post->addComment($this->comment);
 
@@ -350,7 +346,6 @@ class HomeController extends AbstractController
     $this->em->persist($this->comment);
     $this->em->persist($this->post);
     $this->em->flush();
-
     return new JsonResponse(['comment' => $this->performOperation->comments($this->post)]);
   }
   /**
@@ -372,7 +367,6 @@ class HomeController extends AbstractController
 
     return new JsonResponse(['comment' => $this->performOperation->comments($this->post)]);
   }
-
   /**
    * This block of controller is used to identify whether the current user and 
    * the post menu which user has clicked are same or different.
@@ -397,7 +391,6 @@ class HomeController extends AbstractController
     }
     return new JsonResponse(['USER' => FALSE]);
   }
-
   /**
    * This controller deletes the post from the database and returns the flag
    * message.
@@ -415,7 +408,6 @@ class HomeController extends AbstractController
   {
     // Finding the post ID.
     $post = $this->postTable->findOneBy(["id" => $request->request->get('postId')]);
-
     try {
       // Removing the post from the database.
       $this->em->remove($post);
@@ -441,7 +433,6 @@ class HomeController extends AbstractController
   public function deleteComment(Request $request): Response
   {
     $comment = $this->commentTable->findOneBy(["id" => $request->request->get('commentId')]);
-
     try {
       $this->em->remove($comment);
       $this->em->flush();
@@ -503,7 +494,6 @@ class HomeController extends AbstractController
 
     // Setting the comment in the comment object.
     $comment->setComment($this->performOperation->sanitizeData($updatedPost), $comment->getCreatedAt(), new DateTime(), $comment->getUser(), $comment->getPost());
-
     try {
       $this->em->flush();
     } 

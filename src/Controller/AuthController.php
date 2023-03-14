@@ -66,7 +66,6 @@ class AuthController extends AbstractController
    * @var object
    */
   private $user;
-
   /**
    * Cryptography object encode and decode values before
    * sending in link or storing password.
@@ -111,13 +110,13 @@ class AuthController extends AbstractController
    */
   public function __construct(EntityManagerInterface $em)
   {
-    $this->em               = $em;
-    $this->user             = new User();
-    $this->cookie           = new Cookie();
-    $this->sendMail         = new SendEmail();
-    $this->cryptography     = new Cryptography();
-    $this->performOperation = new PerformedOperations();
     $this->userTable        = $em->getRepository(User::class);
+    $this->performOperation = new PerformedOperations();
+    $this->cryptography     = new Cryptography();
+    $this->sendMail         = new SendEmail();
+    $this->cookie           = new Cookie();
+    $this->user             = new User();
+    $this->em               = $em;
   }
   /**
    * This register routes validate user inserted data and calls for
@@ -135,7 +134,6 @@ class AuthController extends AbstractController
   public function register(Request $request): Response
   {
     if ($this->cookie->isActive($request)) {
-      
       return $this->redirectToRoute('home');
     } 
     elseif ($request->request->all()) {
@@ -146,17 +144,13 @@ class AuthController extends AbstractController
       $password = $request->request->get('password');
       $gender   = $request->request->get('gender');
       $userName = substr($email, 0, strrpos($email, '@'));
-
       $checkUserEmail = $this->userTable->findOneBy(['email' => $email]);
 
       // If mail is already exists show this message.
       if ($checkUserEmail) {
-
         return new JsonResponse(['msg' => AuthController::MAIL_EXISTS]);
-
       } 
       elseif ($request->files->has('image')) {
-
         // Storing image in the project directory.
         $this->imageName = $this->performOperation->storeImg($userName, AuthController::USER_IMAGE_PATH, $request->files->get('image'));
       }
@@ -168,7 +162,6 @@ class AuthController extends AbstractController
 
       // Store values in the user.
       $this->user->setUserDetails($fullName, $userName, $email, $this->imageName, $gender, $encodedPassword, $otp, $currentTime, $currentTime, FALSE);
-
       try {
         $this->em->persist($this->user);
         $this->em->flush();
@@ -176,7 +169,6 @@ class AuthController extends AbstractController
       catch (Exception $th) {
         return new JsonResponse(['msg' => $th->getMessage()]);
       }
-
       // Send OTP to the mail
       $sendMail = $this->sendMail->sendEmail($email, $otp, AuthController::MESSAGE_SENT);
 
@@ -207,7 +199,6 @@ class AuthController extends AbstractController
   {
     // Check if the user is already logged in.
     if ($this->cookie->isActive($request)) {
-
       return $this->redirectToRoute('home');
     } 
     // Checks if the ajax request is present.
@@ -215,7 +206,6 @@ class AuthController extends AbstractController
 
       $email    = $request->request->get('email');
       $password = $request->request->get('password');
-
       $userRow = $this->userTable->findOneBy(['email' => $email]);
 
       // Check if the user is present in the database.
@@ -235,7 +225,6 @@ class AuthController extends AbstractController
     }
     return $this->render('auth/login.html.twig');
   }
-
   /**
    * This reset password route redirect user to reset password page where two
    * password fields are shown to the user.
@@ -269,20 +258,16 @@ class AuthController extends AbstractController
     if ($selectedRow) {
       $this->cookie->setCookie(['email' => $selectedRow->getEmail()]);
     }
-
     $email = $this->cookie->getCookie("email", $request);
 
     // If password is NULL then show user this page again.
     if (!$newPassword) {
-
       // If password is NULL return the same page.
       return $this->render('auth/resetPassword.html.twig');
     } 
     elseif (!$email) {
-
       return $this->render('404.html.twig');
     }
-
     // Encoding the new password before storing it in the database.
     $encodedPassword = $this->cryptography->encode($newPassword);
 
@@ -307,7 +292,6 @@ class AuthController extends AbstractController
     }
     return $this->render('auth/resetPassword.html.twig');
   }
-
   /**
    * This register routes validate user inserted data and calls for
    * OTP verification.
@@ -324,9 +308,7 @@ class AuthController extends AbstractController
   public function forgetPassword(Request $request): Response
   {
     if ($this->cookie->isActive($request)) {
-
       return $this->redirectToRoute('home');
-
     } 
     elseif ($request->request->all()) {
 
@@ -338,7 +320,6 @@ class AuthController extends AbstractController
         // If userRow is not present, returns user not found.
         return new JsonResponse(['msg' => AuthController::USER_NOT_FOUND]);
       }
-
       // Encrypting user id before sending mail.
       $id = $this->cryptography->encode($userRow->getId());
 
@@ -349,7 +330,6 @@ class AuthController extends AbstractController
     }
     return $this->render('auth/forgetPassword.html.twig');
   }
-
   /**
    * This routes verify user inserted OTP and OTP send by server are matching.
    *   
@@ -374,10 +354,8 @@ class AuthController extends AbstractController
 
     // Getting the latest OTP value from database.
     $sentOtp = $userRow->getOtp();
-
     // Check the OTP's are matching.
     if ($otp == $sentOtp) {
-
       // Update in the database that user is verified.
       $userRow->setVerified(TRUE);
       $this->em->persist($userRow);
@@ -387,7 +365,6 @@ class AuthController extends AbstractController
     }
     return new JsonResponse(['msg' => AuthController::OTP_NOT_MATCHED]);
   }
-
   /**
    * Resend OTP sends OTP to the user mail again and it updates the database
    * with latest OTP and OTP creation timestamp.
@@ -408,10 +385,8 @@ class AuthController extends AbstractController
     $otpCreationTime = $this->performOperation->currentTime();
 
     if ($this->sendMail->sendEmail($email, $otp, AuthController::MESSAGE_SENT)) {
-
       // Update the database with opt and time.
       $userRow = $this->userTable->findOneBy(['email' => $email]);
-
       if ($userRow) {
         // Update in the new OTP and time in the database.
         $userRow->setOtp($otp);
@@ -429,7 +404,6 @@ class AuthController extends AbstractController
     }
     return new JsonResponse(['msg' => FALSE]);
   }
-
   /**
    * Destroy all sessions and remove cookies.
    *   
@@ -444,7 +418,6 @@ class AuthController extends AbstractController
    */
   public function logout(Request $request): Response
   {
-    
     if($request->get('flag')) {
       // Removing cookies and sessions from the browser.
       $this->cookie->removeCookie($request);

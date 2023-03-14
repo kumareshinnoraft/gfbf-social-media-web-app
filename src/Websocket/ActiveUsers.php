@@ -74,11 +74,11 @@ class ActiveUsers implements MessageComponentInterface
    */
   public function __construct(EntityManagerInterface $entityManager)
   {
-    $this->em          = $entityManager;
-    $this->userService = new UserService;
-    $this->connections = new SplObjectStorage;
-    $this->postTable   = $entityManager->getRepository(Post::class);
     $this->userTable   = $entityManager->getRepository(User::class);
+    $this->postTable   = $entityManager->getRepository(Post::class);
+    $this->connections = new SplObjectStorage;
+    $this->userService = new UserService;
+    $this->em          = $entityManager;
   }
   /**
    * This function takes an array of connections and on open it attaches the

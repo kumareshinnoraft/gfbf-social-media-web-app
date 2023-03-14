@@ -17,15 +17,9 @@ use Ratchet\Http\HttpServer;
  * service.yaml configuration this class enables to take Entity Manager
  * interface. And this class extends the Command class which provides SYMFONY.
  * 
- * @global string $defaultName
- *   Default name is the command name.
- * @global object $em
- *   Entity manager interface instance of the Doctrine class.
- * 
- * @method constructor()
- *   This constructor is used to initialize the objects.
- * @method execute()
- *   This execute function is used to execute the command.
+ * @extends Command
+ *   Command is the symfony inbuilt class which is used to create custom
+ *   commands.
  */
 class ActiveUsersCommand extends Command
 {

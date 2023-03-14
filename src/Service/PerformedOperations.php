@@ -85,17 +85,17 @@ class PerformedOperations
     // Iterating the users list to individual users list.
     foreach ($posts as $post) {
       $postList[] = [
-        'postId'    => $post->getId(),
-        'userId'    => $post->getUser()->getId(),
         'userImage' => $post->getUser()->getImageName(),
-        'postImage' => $post->getImage(),
         'userName'  => $post->getUser()->getFullName(),
-        'postLikes' => $post->getLikes(),
         'commentNo' => count($this->comments($post)),
-        'content'   => $post->getContent(),
+        'userId'    => $post->getUser()->getId(),
         'createdAt' => $post->getCreatedAt(),
         'updatedAt' => $post->getUpdatedAt(),
-        'likes'     => $this->likes($post)
+        'content'   => $post->getContent(),
+        'likes'     => $this->likes($post),
+        'postImage' => $post->getImage(),
+        'postLikes' => $post->getLikes(),
+        'postId'    => $post->getId(),
       ];
     }
     return $postList;
@@ -116,9 +116,9 @@ class PerformedOperations
     // Iterating the users list to individual users list.
     foreach ($users as $user) {
       $userList[] = [
-        'fullName'       => $user->getFullName(),
-        'img'            => $user->getImageName(),
         'lastActiveTime' => $user->getLastActiveTime(),
+        'img'            => $user->getImageName(),
+        'fullName'       => $user->getFullName(),
         'userId'         => $user->getId()
       ];
     }
@@ -175,11 +175,11 @@ class PerformedOperations
     $comments = [];
     foreach ($post->getComments() as $comment) {
       $comments[] = [
-        "comment"   => $comment->getContent(),
-        "fullName"  => $comment->getUser()->getFullName(),
         "imageName" => $comment->getUser()->getImageName(),
-        "commentId" => $comment->getId(),
-        "postId"    => $comment->getPost()->getId()
+        "fullName"  => $comment->getUser()->getFullName(),
+        "postId"    => $comment->getPost()->getId(),
+        "comment"   => $comment->getContent(),
+        "commentId" => $comment->getId()
       ];
     }
     return $comments;
@@ -203,11 +203,11 @@ class PerformedOperations
     }
     // Creating the array of post information.
     return [
-      "userImage"   => $userImage,
-      "image"       => $post->getImage(),
-      "postContent" => $post->getContent(),  
       "userName"    => $post->getUser()->getFullName(),
-      "comments"    => count($this->comments($post)),  
+      "comments"    => count($this->comments($post)),
+      "postContent" => $post->getContent(),  
+      "image"       => $post->getImage(),
+      "userImage"   => $userImage
     ];
   }
   /**
@@ -221,7 +221,6 @@ class PerformedOperations
    */
   public function singleUserInformation(object $user, string $hostName, string $encodedProfileId)
   {
-
     // Creating a profile link.
     $profileLink = HomeController::HTTP . $hostName . HomeController::PROFILE_IMAGE_PATH . $encodedProfileId;
 
@@ -232,11 +231,11 @@ class PerformedOperations
     }
     // Creating the array of user information.
     return [
-      "userImage"   => $userImage,
-      "profileLink" => $profileLink,
-      "email"       => $user->getEmail(),
-      "gender"      => $user->getGender(),
       "fullName"    => $user->getFullName(),
+      "gender"      => $user->getGender(),
+      "email"       => $user->getEmail(),
+      "profileLink" => $profileLink,
+      "userImage"   => $userImage
     ];
   }
 }
