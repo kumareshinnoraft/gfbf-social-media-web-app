@@ -7,5 +7,3 @@
 - Comment feature added with edit and delete options.
 - Share button will generate a link of post and that can be shared with any other non users and the post can be downloaded.
 - Profile link and view profile options provided.
-## Images
-image.png
