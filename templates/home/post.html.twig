@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Post
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{asset('css/home.css')}}">
+{% endblock %}
+
+{% block body %}
+
+<p id="askLogin">Please Login to Like comment and Post <a href="/login">Login</a> or <a href="javascript:void(0);" onclick="downloadPost()">Download</a></p>
+<div class="cardPost" id="post">
+    <div class="header">
+      <div class="imgName">
+        <img src="http://{{ app.request.host }}/userImage/{{userImage}}" height="35" width="35" alt="">
+        <h4>{{ userName }}</h4>
+      </div>
+    </div>
+    <hr id="postBorder">
+    <div class="contentPost">
+      <p>{{ postContent }}</p>
+      <img src="http://{{ app.request.host }}/postImage/{{image}}" onerror="this.style.display='none'" class="postImage" id="postImage${post.postId}" postId="${post.postId}">
+    </div>
+    <hr id="postBorder">
+    <div class="likeComment">
+      <div class="likeCount">
+        <img src="http://{{ app.request.host }}/img/like.png" id="like${post.postId}" postId="${post.postId}"
+          onclick="like(this.getAttribute('postId'))" class="likeBtn" alt="">
+        <img src="http://{{ app.request.host }}/img/dislike.png" id="dislike${post.postId}" postId="${post.postId}"
+          onclick="disLike(this.getAttribute('postId'))" class="dislikeBtn" alt="">
+        <p id="count${post.postId}" class="count">{{comments}}</p>
+      </div>
+      <div class="CommentArea">
+        <button class="comment" id="comment${post.postId}" postId="${post.postId}"
+          onclick="comment(this.getAttribute('postId'))">Comments
+          <span>{{comments}}</span></button>
+        <button class="commentHide" id="commentHide${post.postId}" postId="${post.postId}"
+          onclick="hideComment(this.getAttribute('postId'))">Hide</button>
+      </div>
+      <div class="shareBtn">
+        <button postId="${post.postId}" onclick="shareBtn(this.getAttribute('postId'))" class="share">Share</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="shadow commentSection" id="commentSection${post.postId}">
+    <span id="commentError${post.postId}" class="errorComment"></span>
+    <div class="commentInputArea">
+      <textarea id="commentTextArea${post.postId}" placeholder="type your comment ..." name="comment" required></textarea>
+      <button id="${post.postId}" onclick="postComment(this.id)">comment</button>
+    </div>
+    <div class="commentViewArea">
+      <div class="comments">
+        <ul class="list-group" id="commentsUl${post.postId}">
+          <ul>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js %}
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+{{ parent() }}
+{% endblock %}

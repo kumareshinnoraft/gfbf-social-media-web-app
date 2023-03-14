@@ -6,9 +6,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use App\Service\UserService;
+use SplObjectStorage;
 use App\Entity\Post;
 use App\Entity\User;
-use SplObjectStorage;
 use Exception;
 
 /**
@@ -74,11 +74,11 @@ class ActiveUsers implements MessageComponentInterface
    */
   public function __construct(EntityManagerInterface $entityManager)
   {
-    $this->connections = new SplObjectStorage;
+    $this->em          = $entityManager;
     $this->userService = new UserService;
-    $this->em = $entityManager;
-    $this->postTable = $entityManager->getRepository(Post::class);
-    $this->userTable = $entityManager->getRepository(User::class);
+    $this->connections = new SplObjectStorage;
+    $this->postTable   = $entityManager->getRepository(Post::class);
+    $this->userTable   = $entityManager->getRepository(User::class);
   }
   /**
    * This function takes an array of connections and on open it attaches the
@@ -110,7 +110,7 @@ class ActiveUsers implements MessageComponentInterface
   public function onMessage(ConnectionInterface $from, $msg)
   {
     // Receiving the message email from client side.
-    $this->email = json_decode($msg, true)['email'];
+    $this->email = json_decode($msg, TRUE)['email'];
 
     // If email is not NULL, fetch the user's details and BROADCAST them
     // through all the connections.
@@ -139,7 +139,7 @@ class ActiveUsers implements MessageComponentInterface
    * @param ConnectionInterface $conn
    *   This object conn having a value of unique id of each individual
    *   connection.
-   * @param exception $e
+   * @param Exception $e
    *   Exception instance tells the reason of the error.
    * 
    * @return void
@@ -167,9 +167,6 @@ class ActiveUsers implements MessageComponentInterface
     foreach ($this->connections as $client) {
       $client->send(json_encode($this->userService->getUserByEmail($this->email, $this->userTable, $this->em)));
       $client->send(json_encode($this->userService->getPosts($this->postTable)));
-      
-      // TODO: To let other users know in real time in the likes and dislike counts.
-      // $client->send(json_encode($this->userService->getLikeCount($this->postTable)));
     }
   }
 }

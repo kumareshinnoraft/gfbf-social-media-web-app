@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -92,7 +93,13 @@ class Comment
     public function setPost(?Post $post): self
     {
         $this->post = $post;
-
         return $this;
+    }
+    public function setComment(string $comment, DateTime $createdAt, DateTime $updatedAt, object $user, object $post) {
+      $this->setContent($comment);
+      $this->setCreatedAt($createdAt);
+      $this->setUpdatedAt($updatedAt);
+      $this->setUser($user);
+      $this->setPost($post);
     }
 }

@@ -33,10 +33,10 @@ class Post
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class)]
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, cascade : array("remove"))]
     private Collection $comments;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Likes::class)]
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Likes::class, cascade : array("remove"))]
     private Collection $likes;
 
     public function __construct()

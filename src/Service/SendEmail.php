@@ -6,12 +6,14 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 /**
- * Sending mail to proper email id with proper message is the responsible
- * of this class.
+ * Sending mail class is used to send mail messages to the user and gmail
+ * SMTP server is used to send the mail and those important information are
+ * added in the env file. At the same moment if mail is sent successfully a
+ * boolean flag is added. If any error occurs then the errors will be returned.
  * 
- * @method sendMail()
- *   This method is used for sending the mail.
- *  
+ * @package PHPMailer
+ * @see https://packagist.org/packages/phpmailer/phpmailer
+ *   
  * @author Kumaresh Baksi <kumaresh.baksi@innoraft.com>
  */
 class SendEmail
@@ -19,16 +21,16 @@ class SendEmail
   /**
    * Send Email function send a mail according to the parameter provided.
    *
-   * @param  mixed $email
-   *   This is where we have to send the mail.
-   * @param  mixed $link
-   *   This contains the link which will be send in the body, it can be a
-   *   OTP as well.
-   * @param  mixed $msg
-   *   This will contain the message which will be included in the body.
+   * @param string $email
+   *   This mail id the receiver email id.
+   * @param string $link
+   *   Link will act as a OTP and password reset link.
+   * @param string $msg
+   *   Message contains the message which will be sent with the email.
    * 
    * @return mixed
-   *   If mail is send successfully returns TRUE instead FALSE.
+   *   If mail is send successfully returns TRUE instead it returns the
+   *   exception message.
    */
   public function sendEmail(string $email, string $link, string $msg)
   {
@@ -39,7 +41,7 @@ class SendEmail
       $mail->isSMTP();
 
       // Setting host
-      $mail->Host =  $_ENV['MAILER_HOST'];
+      $mail->Host     =  $_ENV['MAILER_HOST'];
       $mail->SMTPAuth = TRUE;
 
       // Setting username and password from GMAIL SMTP server
@@ -50,13 +52,13 @@ class SendEmail
       $mail->SMTPSecure = 'tls';
       $mail->Port = 587;
 
-      $mail->setFrom('ajanatech0@gmail.com', 'Innoraft');
+      $mail->setFrom('baksikumaresh123@gmail.com', 'Innoraft');
       $mail->addAddress("$email", '');
 
       // isHTML function in PHPMailer allows you.
       $mail->isHTML(TRUE);
       $mail->Subject = 'Innoraft';
-      $mail->Body = "$msg $link";
+      $mail->Body = $msg . $link;
 
       // If send function returns TRUE, showing user a positive
       // response instead show the failed message.
@@ -65,7 +67,7 @@ class SendEmail
       }
     } 
     catch (Exception $e) {
-      return $e;
+      return $e->getMessage();
     }
   }
 }

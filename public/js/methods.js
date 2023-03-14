@@ -1,10 +1,17 @@
+// This JS file contains the implementation of checkers of different types of
+// input fields that helps to filter all the input fields in one common file.
+// There are four different input fields area where regex matches the input
+// inserted values. And at the same time it set the error message in the span
+// area. There are different types of loaders are present as well. and a form
+// data function which serializes the form data.
+
 var inputFullName = document.getElementById("fullName");
-var inputEmail = document.getElementById("email");
+var inputEmail    = document.getElementById("email");
 var inputPassword = document.getElementById("password");
-var postArea = document.getElementById("postText");
+var postArea      = document.getElementById("postText");
 
 var regexFullName = /^[a-z]+( [a-z]+)+/i;
-var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+var regexEmail    = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 var regexPassword = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[\W_])(?!.*\s)[a-zA-Z0-9\W_]+$/;
 
 if (inputFullName != null) {
@@ -72,10 +79,10 @@ if (postArea != null) {
     const value = postArea.value.trim();
     const errorPostArea = document.getElementById("postArea");
     if (value.length == 0) {
-      errorPostArea.textContent = "Post should not be empty.";
+      // errorPostArea.textContent = "Post should not be empty.";
       $('#postBtn').attr('disabled', 'disabled');
-    } else if (value.length > 100 || value.length < 10) {
-      errorPostArea.textContent = "Maximum 100 characters and minimum 10 characters allowed";
+    } else if (value.length > 100) {
+      errorPostArea.textContent = "Maximum 100 characters";
       $('#postBtn').attr('disabled', 'disabled');
     } else {
       errorPostArea.textContent = "";
@@ -83,30 +90,38 @@ if (postArea != null) {
     }
   });
 }
-
+/**
+ * On form submission event this function is called and it takes form inserted
+ * data and append it to the form data.
+ * 
+ * @param formInsertedData 
+ *   This form data is inserted by the user.
+ * 
+ * @returns formData
+ *   This form data will be sent to the server using ajax calls.
+ */
 function fetchFormData(formInsertedData) {
 
   var formData = new FormData();
+
   $.each(formInsertedData, function (key, input) {
     formData.append(input.name, input.value);
   });
-
   return formData;
 }
 
 /**
- * Loader
+ * Loader for all pages
  */
 function showLoader() {
   document.getElementById("loader").style.display = "block";
 }
-
 function hideLoader() {
   document.getElementById("loader").style.display = "none";
 }
 
 /**
- * Loader for Home Page
+ * Loader for Home Pages
  */
 function showLeftLoader() {
   document.getElementById("leftLoader").style.display = "block";
@@ -122,4 +137,16 @@ function showRightLoader() {
 
 function hideRightLoader() {
   document.getElementById("rightLoader").style.display = "none";
+}
+/**
+ * Download post will be called when user will download the post. html2canvas
+ * will be used to download the post.
+ */
+function downloadPost() {
+  html2canvas(document.getElementById("post")).then(function(canvas) {
+    var link = document.createElement("a");
+    link.download = "post.jpg";
+    link.href = canvas.toDataURL("image/jpeg");
+    link.click();
+  });
 }

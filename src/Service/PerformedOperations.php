@@ -2,23 +2,27 @@
 
 namespace App\Service;
 
+use App\Controller\HomeController;
 use DateTimeImmutable;
 use Exception;
 use DateTime;
 
 /**
- * This class is for different methods that will be performed inside 
- * controller. 
+ * This class is for different methods that will be performed inside controller.
+ * This controller helps many times throughout the whole application.
  * 
- * @method storeImg()
- *   Store user image in the database.
- *  
+ * @package DateTimeImmutable
+ * @package DateTime
+ * @package Exception
+ * 
  * @author Kumaresh Baksi <kumaresh.baksi@innoraft.com>
  */
 class PerformedOperations
 {
   /**
-   * This function stores user image in the project directory.
+   * This function stores user image in the project directory. This function 
+   * takes three arguments and according to the need this function store the
+   * file in the project directory.
    *
    * @param string $name
    *  This variable is the unique user name of the user.
@@ -34,15 +38,17 @@ class PerformedOperations
    */
   public function storeImg(string $name, string $location, object $image)
   {
+    // Guess extension of the image.
     $name = $name . "." . $image->guessExtension();
     try {
+      // Moving the file in the location.
       $image->move($location, $name);
-    } catch (Exception $ex) {
+    } 
+    catch (Exception $ex) {
       return FALSE;
     }
     return $name;
   }
-
   /**
    * This function generates random number for OTP.
    *
@@ -66,6 +72,9 @@ class PerformedOperations
   /**
    * This function returns the posts contained data, this can be used to sent
    * to ajax.
+   * 
+   * @param array $posts
+   *   This posts contains an array of posts objects.
    *
    * @return array
    *  Returning array of posts data.
@@ -76,21 +85,27 @@ class PerformedOperations
     // Iterating the users list to individual users list.
     foreach ($posts as $post) {
       $postList[] = [
-        'postId' => $post->getId(),
-        'userId' => $post->getUser()->getId(),
+        'postId'    => $post->getId(),
+        'userId'    => $post->getUser()->getId(),
         'userImage' => $post->getUser()->getImageName(),
-        'userName' => $post->getUser()->getFullName(),
+        'postImage' => $post->getImage(),
+        'userName'  => $post->getUser()->getFullName(),
         'postLikes' => $post->getLikes(),
-        'content' => $post->getContent(),
+        'commentNo' => count($this->comments($post)),
+        'content'   => $post->getContent(),
         'createdAt' => $post->getCreatedAt(),
         'updatedAt' => $post->getUpdatedAt(),
-        'likes' => $this->likes($post)
+        'likes'     => $this->likes($post)
       ];
     }
     return $postList;
   }
   /**
    * This function creates a array for storing user data.
+   * 
+   * @param array $users
+   *   This function will be used to fetch different user data and store in
+   *   an array.
    *
    * @return array
    *  Returning array of users data.
@@ -101,15 +116,14 @@ class PerformedOperations
     // Iterating the users list to individual users list.
     foreach ($users as $user) {
       $userList[] = [
-        'fullName' => $user->getFullName(),
-        'img' => $user->getImageName(),
+        'fullName'       => $user->getFullName(),
+        'img'            => $user->getImageName(),
         'lastActiveTime' => $user->getLastActiveTime(),
-        'userId' => $user->getId()
+        'userId'         => $user->getId()
       ];
     }
     return $userList;
   }
-
   /**
    * Sanitize data is used to validate user inserted input if user has inserted
    * any malicious value ini the input field, this function will not allow it to
@@ -145,5 +159,84 @@ class PerformedOperations
       ];
     }
     return $likes;
+  }
+  /**
+   * This block of functions extracts the comments and stored in the array.
+   *
+   * @param object $post
+   *   This post is the a post which will have comments and will be sent to the 
+   *   client side.
+   * 
+   * @return array
+   *   An array of comments of the post.
+   */
+  public function comments(object $post)
+  {
+    $comments = [];
+    foreach ($post->getComments() as $comment) {
+      $comments[] = [
+        "comment"   => $comment->getContent(),
+        "fullName"  => $comment->getUser()->getFullName(),
+        "imageName" => $comment->getUser()->getImageName(),
+        "commentId" => $comment->getId(),
+        "postId"    => $comment->getPost()->getId()
+      ];
+    }
+    return $comments;
+  }
+  /**
+   * This single post information returns information about a post.
+   *
+   * @param object $post
+   *   This post object contains information about the post.
+   * 
+   * @return array
+   *   An array of information about the post.
+   */
+  public function singlePostInformation(object $post)
+  {
+    // Getting user image name.
+    $userImage = $post->getUser()->getImageName();
+
+    if($userImage == NULL) {
+      $userImage = 'avatar.png';
+    }
+    // Creating the array of post information.
+    return [
+      "userImage"   => $userImage,
+      "image"       => $post->getImage(),
+      "postContent" => $post->getContent(),  
+      "userName"    => $post->getUser()->getFullName(),
+      "comments"    => count($this->comments($post)),  
+    ];
+  }
+  /**
+   * This function returns a single user data.
+   *
+   * @param object $user
+   *   This user object contains user information including user profile link.
+   * 
+   * @return array
+   *   An array of information about the user.
+   */
+  public function singleUserInformation(object $user, string $hostName, string $encodedProfileId)
+  {
+
+    // Creating a profile link.
+    $profileLink = HomeController::HTTP . $hostName . HomeController::PROFILE_IMAGE_PATH . $encodedProfileId;
+
+    // Getting user image and if it doesn't exist default name is avatar.png.
+    $userImage   = $user->getImageName();
+    if($userImage == NULL) {
+      $userImage = 'avatar.png';
+    }
+    // Creating the array of user information.
+    return [
+      "userImage"   => $userImage,
+      "profileLink" => $profileLink,
+      "email"       => $user->getEmail(),
+      "gender"      => $user->getGender(),
+      "fullName"    => $user->getFullName(),
+    ];
   }
 }

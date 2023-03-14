@@ -1,8 +1,9 @@
-/**
- * Ajax call to identify if login credentials are available in db.
- */
+// On the forget password this ajax call will be made and send the mail to
+// the server.
 $('.forgetPasswordForm').submit(function (event) {
   event.preventDefault();
+
+  // Creating the form data.
   var formData = fetchFormData($(this).serializeArray());
 
   $.ajax({

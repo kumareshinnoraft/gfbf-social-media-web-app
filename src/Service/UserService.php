@@ -11,10 +11,8 @@ use DateTime;
  * this class will be called and perform all necessary database operations
  * and return the result as an array data.
  * 
- * @method constructor()
- *   This constructor is used to initialize the objects.
- * @method getUserByEmail()
- *   This function is used to fetch user data from database.
+ * @package ORM
+ * @subpackage EntityManagerInterface
  */
 class UserService
 {
@@ -24,6 +22,11 @@ class UserService
    * @var object
    */
   private $performOperation;
+  /**
+   * This constructor is used to initialize the object. Performed operations
+   * class contains necessary methods to generate different types of array by
+   * extracting post, user or comment.
+   */
   public function __construct()
   {
     $this->performOperation = new PerformedOperations();
@@ -43,13 +46,13 @@ class UserService
   {
     $userRow = $userTable->findOneBy(['email' => $email]);
 
-    // SET the user is activated and CURRENT DATETIME.
+    // Setting the user is activated and CURRENT DATETIME.
     $userRow->setLastActiveTime(new DateTime);
     $userRow->setIsActive(TRUE);
     $em->persist($userRow);
     $em->flush();
 
-    // Get the list of users from the database or session
+    // Getting the list of users from the database or session
     // For example, using Doctrine ORM:
     $users = $userTable->findBy(['isActive' => TRUE]);
 
@@ -62,7 +65,6 @@ class UserService
     ];
     return $activeUsersMessage;
   }
-
   /**
    * THis function return the posts that need to load on the home page.
    *

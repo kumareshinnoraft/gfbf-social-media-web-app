@@ -1,5 +1,6 @@
 /**
- * Ajax call to identify if login credentials are available in db.
+ * This ajax call used to check the login credentials if credentials are correct
+ * home page will be returned.
  */
 $('#loginForm').submit(function (event) {
   event.preventDefault();

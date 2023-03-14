@@ -16,9 +16,8 @@ use App\Entity\User;
 use Exception;
 
 /**
- * This Controller is responsible for validating user credentials and 
- * creating Users, resetting forgotten credentials and as well as OTP
- * validation.
+ * This Controller is responsible for validating user credentials and creating 
+ * Users, resetting forgotten credentials and as well as OTP validation.
  *
  * @package Doctrine
  * @subpackage ORM
@@ -30,6 +29,7 @@ use Exception;
 class AuthController extends AbstractController
 {
   public const USER_IMAGE_PATH      = "../public/userImage";
+  public const POSTS_IMAGE_PATH     = "../public/postImage";
   public const MESSAGE_SENT         = "Your One Time Password is";
   public const OTP_NOT_MATCHED      = "OTP not matched, try again";
   public const MAIL_EXISTS          = "Mail is already exists";
@@ -93,7 +93,7 @@ class AuthController extends AbstractController
    */
   private $imageName = '';
   /**
-   * This object is used to store and retrieve cookie. 
+   * This object is used to store and retrieve cookie.
    *
    * @var object
    */
@@ -112,11 +112,11 @@ class AuthController extends AbstractController
   public function __construct(EntityManagerInterface $em)
   {
     $this->em               = $em;
-    $this->cryptography     = new Cryptography();
-    $this->performOperation = new PerformedOperations();
+    $this->user             = new User();
     $this->cookie           = new Cookie();
     $this->sendMail         = new SendEmail();
-    $this->user             = new User();
+    $this->cryptography     = new Cryptography();
+    $this->performOperation = new PerformedOperations();
     $this->userTable        = $em->getRepository(User::class);
   }
   /**
@@ -137,7 +137,8 @@ class AuthController extends AbstractController
     if ($this->cookie->isActive($request)) {
       
       return $this->redirectToRoute('home');
-    } elseif ($request->request->all()) {
+    } 
+    elseif ($request->request->all()) {
 
       // Storing all incoming values in variables
       $fullName = $request->request->get('fullName');
@@ -153,7 +154,8 @@ class AuthController extends AbstractController
 
         return new JsonResponse(['msg' => AuthController::MAIL_EXISTS]);
 
-      } elseif ($request->files->has('image')) {
+      } 
+      elseif ($request->files->has('image')) {
 
         // Storing image in the project directory.
         $this->imageName = $this->performOperation->storeImg($userName, AuthController::USER_IMAGE_PATH, $request->files->get('image'));
@@ -188,7 +190,6 @@ class AuthController extends AbstractController
     }
     return $this->render('auth/register.html.twig');
   }
-
   /**
    * This reset password route redirect user to reset password page where two
    * password fields are shown to the user.
@@ -204,20 +205,25 @@ class AuthController extends AbstractController
    */
   public function login(Request $request): Response
   {
+    // Check if the user is already logged in.
     if ($this->cookie->isActive($request)) {
 
       return $this->redirectToRoute('home');
-    } elseif ($request->request->all()) {
+    } 
+    // Checks if the ajax request is present.
+    elseif ($request->request->all()) {
 
       $email    = $request->request->get('email');
       $password = $request->request->get('password');
 
       $userRow = $this->userTable->findOneBy(['email' => $email]);
 
+      // Check if the user is present in the database.
       if (!$userRow) {
         return new JsonResponse(['msg' => AuthController::USER_NOT_FOUND]);
       }
-
+      // Decode the password and match with the password present in the
+      // database.
       $decodedPassword = $this->cryptography->decode($userRow->getPassword());
 
       if (!strcmp($password, $decodedPassword)) {
@@ -245,7 +251,6 @@ class AuthController extends AbstractController
    */
   public function resetPassword(Request $request): Response
   {
-
     // Getting both password and new password field.
     $newPassword = $request->request->get('password1');
     $password    = $request->get('password2');
@@ -272,7 +277,8 @@ class AuthController extends AbstractController
 
       // If password is NULL return the same page.
       return $this->render('auth/resetPassword.html.twig');
-    } elseif (!$email) {
+    } 
+    elseif (!$email) {
 
       return $this->render('404.html.twig');
     }
@@ -321,7 +327,8 @@ class AuthController extends AbstractController
 
       return $this->redirectToRoute('home');
 
-    } elseif ($request->request->all()) {
+    } 
+    elseif ($request->request->all()) {
 
       $email = $request->request->get('email');
       // Get the row of user with email.
@@ -396,9 +403,8 @@ class AuthController extends AbstractController
    */
   public function resendOTP(Request $request): Response
   {
-    $email = $this->cookie->getCookie("email", $request);
-    
-    $otp = $this->performOperation->generateOtp();
+    $email           = $this->cookie->getCookie("email", $request);
+    $otp             = $this->performOperation->generateOtp();
     $otpCreationTime = $this->performOperation->currentTime();
 
     if ($this->sendMail->sendEmail($email, $otp, AuthController::MESSAGE_SENT)) {
@@ -450,24 +456,3 @@ class AuthController extends AbstractController
     return $this->render('404.html.twig');
   }
 }
-
-/**
- * I would add register user in the database --> done
- * Send and validate OTP registration --> done.
- * 
- * forget password - Done
- * Login -Done
- * Code redundancy from JS pages. - Done
- * Adding Logout feature - Done
- * store cookies to make user is login - Done
- * Skeleton effect in home - Done
- * 
- * Changes designs according to the friends - Done
- * Start learning web sockets - Done
- * Track online users - Done
- * 
- * Create Databases - Done
- * Create Post with comments as well - Working
- * Make allow user to like and comment - Working
- * I will make code more fluent.
- */

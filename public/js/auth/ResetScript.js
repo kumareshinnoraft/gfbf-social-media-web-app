@@ -1,3 +1,4 @@
+// This JS file identified if the new password and re-type password is matched.
 const inputPassword2 = document.getElementById("password2");
 
 inputPassword2.addEventListener("input", () => {

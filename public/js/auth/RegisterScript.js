@@ -1,3 +1,6 @@
+// This JS file handles the user registration and OTP verification through ajax
+// calls and other methods like setting image to the image avatar relevant OTP
+// input fields these activities are maintained by this file.
 $('.profile-pic').click(() => {
   $('.file-upload').click();
 });
@@ -23,7 +26,7 @@ var otpTimer;
 // Start the OTP timer
 function startOTPTimer() {
 
-  var countdown = 10;
+  var countdown = 60;
   otpTimer = setInterval(function() {
 
     $('#otpTimer').text(countdown + ' seconds remaining');
@@ -63,7 +66,7 @@ $('#register-form').submit(function (event) {
       showLoader();
     },
     success: function (data) {
-
+      // If the mail is sent successfully this block of code will be executed.
       if (data.mail) {
         $(".registerFormBox").css("display", "none");
         $(".otpFormBox").css({ "display": "flex" });
@@ -95,7 +98,13 @@ $('#otpForm').submit(function (event) {
 
   checkOTP(formData);
 });
-
+/**
+ * This function checks if the inserted OTP is correct or not if it is not then
+ * it set the error message in the span.
+ * 
+ * @param formData 
+ *   Form data to contain the OTP.
+ */
 function checkOTP(formData){
   $.ajax({
     url: '/otp',
@@ -124,7 +133,9 @@ function checkOTP(formData){
     }
   });
 }
-
+/**
+ * Resend OTP is used to call the send mail function again to send the mail.
+ */
 function resendOTP(){
   $.ajax({
     url: '/resendOTP',
@@ -149,7 +160,8 @@ function resendOTP(){
   });
 }
 
-/* OTP Text Field */
+// These block of code is necessary for more reliable and user-friendly OTP
+// input fields.
 let digitValidate = function (element) {
   element.value = element.value.replace(/[^0-9]/g, '');
 }

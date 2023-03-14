@@ -15,6 +15,7 @@
 /bin/
 /public/img/
 /public/userImage/
+/public/postImage/
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###

@@ -6,59 +6,40 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Service\Cryptography;
 
 /**
- *  This class stores cookie in the browser also checks if user is logged
- *  or not and deletes the cookies when required.
+ * This class stores cookie in the browser also checks if user is logged
+ * or not and deletes the cookies when required. And remove cookie is used to
+ * remove the cookie.
  * 
- *  @method setCookie()
- *    Handling the cookie in the project.
- *  @method getCookie()
- *    Returns the cookie value.
- *  @method isActive()
- *    This method returns if user is active.
- *  @method removeCookie()
- *    Delete the cookie from the browser.
- * 
- *  @property object $cryptography
- *    Cryptography object is used to encode and decode values.
- *  @property object $request
- *    Request object is used to identify the quires.
- * 
- *  @author Kumaresh Baksi <kumaresh.baksi@innoraft.com>
+ * @author Kumaresh Baksi <kumaresh.baksi@innoraft.com>
  */
 class Cookie
 {
   /**
-   *  This object encode and decode string.
+   * This object encode and decode string.
    * 
-   *  @var object
+   * @var object
    */
   private $cryptography;
   /**
-   *  Request variable reads the different request from
-   *  different pages.
+   * Request variable reads the different request from
+   * different pages.
    *   
-   *  @var object
+   * @var object
    */
   private $request;
   /**
-   *  Constructor is used to initialize the objects
-   *
-   *  @return void
+   * Constructor is used to initialize the objects
    */
   public function __construct()
   {
-
+    $this->request      = new Request();
     $this->cryptography = new Cryptography();
-    $this->request = new Request();
-
   }
   /**
-   *  setCookie function se the cookie in a serialized form.
+   * Set cookie function se the cookie in a serialized form.
    *
-   *  @param  array $value
-   *    Array value contain three parameter, user, email and username.
-   * 
-   *  @return void
+   * @param  array $value
+   *   Array value contain three parameter, user, email and username.
    */
   public function setCookie(array $value)
   {
@@ -73,15 +54,15 @@ class Cookie
 
   }
   /**
-   *  getCookie function is used to extract the value and returns the value.
+   * Get cookie function is used to extract the value and returns the value.
    *
-   *  @param  string $name
-   *    Name parameter is the key of the value user is requesting for.
-   *  @param  object $request
-   *    An request object understands in which page value is required.
+   * @param  string $name
+   *   Name parameter is the key of the value user is requesting for.
+   * @param  object $request
+   *   An request object understands in which page value is required.
    * 
-   *  @return mixed
-   *    If value of the key is found return string instead boolean.
+   * @return mixed
+   *   If value of the key is found return string instead boolean.
    */
   public function getCookie(string $name, object $request)
   {
@@ -98,16 +79,15 @@ class Cookie
     $deserializedValue = unserialize($decodedValue);
     return $deserializedValue[$name];
   }
-  
   /**
-   *  This function returns if user active or not
+   * This function returns if user active or not
    *
-   *  @param  object $request
-   *    Request object is taken from the user to identify which
-   *    page is requesting isActive method.
+   * @param  object $request
+   *   Request object is taken from the user to identify which
+   *   page is requesting isActive method.
    * 
-   *  @return boolean
-   *    If user status is active function returns TRUE instead FALSE.
+   * @return boolean
+   *   If user status is active function returns TRUE instead FALSE.
    */
   public function isActive(object $request)
   {
@@ -118,7 +98,7 @@ class Cookie
     if (isset($encodedValue)) {
       $decodedValue = $this->cryptography->decode($encodedValue);
       $unsterilizedValue = unserialize($decodedValue);
-      if ($unsterilizedValue["email"] != NULL) {
+      if ($unsterilizedValue["email"]) {
         return TRUE;
       }
     }
@@ -126,13 +106,13 @@ class Cookie
   }
 
   /**
-   *  Remove Cookie function is used to remove user data from cookie.
+   * Remove Cookie function is used to remove user data from cookie.
    *
-   *  @param  object $request
-   *    Request is needed to get the cookies of the pages.
+   * @param  object $request
+   *   Request is needed to get the cookies of the pages.
    * 
-   *  @return void
-   *    This function does not returns anything as it just remove the user.
+   * @return void
+   *   This function does not returns anything as it just remove the user.
    */
   public function removeCookie(object $request)
   {
