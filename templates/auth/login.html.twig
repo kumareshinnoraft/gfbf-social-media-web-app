@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{asset('css/style.css')}}">
+{% endblock %}
+
+{% block body %}
+	<div id="loader"></div>
+
+	<div class="d-flex align-items-center justify-content-center container vh-100">
+		<div class="col-sm-4 p-3 bg-white rounded-xl card">
+			<div class="logo">
+				<img src="./img/appLogo.png" height="60" width="60" alt="logo" srcset="">
+				<h4>Bengal bits.</h4>
+			</div>
+			<hr/>
+			<div class="register">
+				<h4>Login</h4>
+			</div>
+			<hr/>
+			<span id="loginServerError" class="error"></span>
+			<form action="/login" id="loginForm" method="post">
+				<div class="inputText">
+
+					<input class="form-control shadow-sm" id="email" placeholder="Email" name="email" type="email" required/>
+					<span id="errorEmail" class="error"></span>
+
+					<input class="form-control shadow-sm passInput" id="password" placeholder="Password" name="password" type="password" required/>
+					<span id="errorPassword" class="error"></span>
+
+				</div>
+				<hr/>
+				<div class="msgFromResetPassword">
+					{% if error is defined %}
+						{{error}}
+					{% endif %}
+				</div>
+				<div class="buttons">
+					<a href="/register" class="form-control shadow-sm login">Register</a>
+					<input class="form-control shadow-sm submitBtn" id="submit" type="submit" name="submit" value="Login"/>
+				</form>
+			</div>
+			<div id="forgetPassword">
+				<a href="/forgetPassword" class="form-control shadow-sm forgetPassword">Forget Password</a>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block js %}
+	{{ parent() }}
+	<script src="{{asset('js/auth/LoginScript.js')}}"></script>
+{% endblock %}

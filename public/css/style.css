@@ -1,0 +1,314 @@
+.card{
+  border: none;
+  border-radius: 10px;
+  /* box-shadow: 0px 0px 25px #d9d9d9; */
+  box-shadow: 0px 0px 25px #ff0000;
+}
+
+.card:hover{
+  box-shadow: 0px 0px 25px #ff0000;
+}
+
+.logo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2px solid #ff0000;
+}
+
+.logo h4{
+  font-family: 'Permanent Marker', cursive;
+  color: #ff0000;
+  margin-bottom: 0;
+  font-size: 35px;
+}
+
+.logo img{
+  margin-right: 5px;
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid #f52c4e52;
+}
+
+.register{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.female,
+.others,
+.male {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 50px;
+}
+
+.register h4{
+  font-family: 'Sansita Swashed', cursive;
+  font-size: 40px;
+  color: #ff0000;
+}
+
+.inputText{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.inputText input{
+  width: 70%;
+  border-radius: 25px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 25px;
+}
+
+.inputText input:focus{
+  border-color: #ff0000;
+  color: #ff0000;
+
+}
+
+.buttons{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.submitBtn{
+  width: 25%;
+  background-color: #ff0000;
+  border-radius: 25px;
+  color: white;
+  font-size: small;
+  text-align: center;
+}
+
+.submitBtn:hover{
+  width: 25%;
+  background-color: white;
+  border-radius: 25px;
+  color: black;
+  font-size: small;
+  text-align: center;
+}
+
+.buttons a{
+  text-align: center;
+  text-decoration: none;
+  width: 25%;
+  background-color: #ff0000;
+  border-radius: 25px;
+  color: white;
+  font-size: small;
+  padding: 6px;
+}
+
+.buttons a:hover{
+  text-align: center;
+  text-decoration: none;
+  width: 25%;
+  background-color: white;
+  border-radius: 25px;
+  color: black;
+  font-size: small;
+}
+
+.error{
+  color: red;
+  font-size: small;
+  width: 70%;
+  text-align: center;
+}
+
+#togglePassword{
+  position: absolute;
+  left: 80%;
+  top: 68.3%;
+}
+
+#forgetPassword{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+
+#forgetPassword a{
+  text-align: center;
+  text-decoration: none;
+  width: 40%;
+  background-color: #ff0000;
+  border-radius: 25px;
+  color: white;
+  font-size: small;
+}
+
+#forgetPassword a:hover{
+  text-align: center;
+  text-decoration: none;
+  width: 40%;
+  background-color: white;
+  border-radius: 25px;
+  color: black;
+  font-size: small;
+}
+
+form input {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+}
+
+#otpBtn{
+  text-align: center;
+  text-decoration: none;
+  width: 40%;
+  background-color: #ff0000;
+  border-radius: 25px;
+  color: white;
+  font-size: small;
+  border: none;
+}
+
+.otpFormBox{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: none;
+}
+
+.registerFormBox{
+  display: block;
+}
+
+#otp{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.otpBlock h4{
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 40px;
+    color: #ff0000;
+}
+
+/* Loader */
+
+#loader {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 9999;
+}
+
+#loader:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  margin: -30px 0 0 -30px;
+  border-radius: 50%;
+  border: 6px solid #f3f3f3;
+  border-top-color: #3498db;
+  animation: spin 2s ease infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.profile-pic{
+  width: 150px;
+  height: 150px;
+  padding: 0;
+  margin-bottom: 5px;
+  border-radius: 50%;
+  border: 3px solid #ff0000;
+  cursor: pointer;
+}
+
+.file-upload{
+  display: none;
+}
+
+.dp{
+  position: relative;
+}
+
+#add-icon{
+  background-color: #ff0000;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  text-align: center;
+  color: white;
+  font-size: large;
+  margin-top: none;
+  font-weight: bolder;
+  position: absolute;
+  left: 75%;
+  top: 70%;
+  cursor: pointer;
+}
+
+.gender{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 75%;
+}
+
+input[type=radio] {
+  border: 0px;
+  height: 2em;
+  font-family: 'Sansita Swashed', cursive;
+  accent-color: #ff0000;
+}
+
+#serverError{
+  text-align: center;
+}
+
+#resendOTP{
+  text-align: center;
+  text-decoration: none;
+  width: 40%;
+  background-color: #ff0000;
+  border-radius: 25px;
+  color: white;
+  font-size: small;
+  border: none;
+}
+
+.submitBtns{
+  display: flex;
+  justify-content: center;
+}
+
+.msgFromResetPassword{
+  display: flex;
+  justify-content: center;
+}
+

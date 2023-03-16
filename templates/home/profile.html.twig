@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{asset('css/style.css')}}">
+	<link rel="stylesheet" href="{{asset('css/home.css')}}">
+{% endblock %}
+
+{% block body %}
+	<div id="loader"></div>
+	<div class="d-flex align-items-center justify-content-center container vh-100">
+		<div class="col-sm-4 p-3 bg-white rounded-xl card">
+			<div class="registerFormBox">
+				<form action="/register" method="post" id="register-form" enctype="multipart/form-data">
+					<div class="inputText">
+						<div class="dp">
+							<img class="profile-pic" src="http://{{ app.request.host }}/userImage/{{userImage}}">
+						</div>
+						<input class="file-upload" name="image" type="file" accept="image/*" readonly/>
+						<span id="registerServerError" class="error"></span>
+
+						<input class="form-control shadow-sm" id="fullName" placeholder="Full name" name="fullName" type="text" value = "{{fullName}}" required readonly/>
+						<span id="errorFullName" class="error"></span>
+
+						<input class="form-control shadow-sm" id="email" placeholder="Email" name="email" type="email" value = "{{email}}" required readonly/>
+						<span id="errorEmail" class="error"></span>
+
+            <input class="form-control shadow-sm" id="gender" placeholder="Email" name="gender" type="text" value = "Gender - {{gender}}" required readonly/>
+            <input class="form-control shadow-sm" id="profileLink" placeholder="Link" name="link" type="text" value = "{{profileLink}}" onclick="copyProfileLink()" required readonly/>
+					</div>
+					<hr/>
+					<div class="buttons">
+						<a href="/login" class="form-control shadow-sm login">Back</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block js %}
+	{{ parent() }}
+	<script src="{{asset('js/auth/RegisterScript.js')}}"></script>
+{% endblock %}
