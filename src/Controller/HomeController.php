@@ -26,8 +26,9 @@ use DateTime;
  * those are returning array and few controllers are directly returning twig 
  * pages for showing desired output.
  *
- * @package Doctrine
- * @subpackage ORM
+ * @package ORM
+ * @subpackage Doctrine
+ * @extends AbstractController
  * 
  * @author Kumaresh Baksi <kumaresh.baksi@innoraft.com>
  * @version 1.0

@@ -17,12 +17,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 2px solid #F52C4C;
+  margin-bottom: 2px solid #ff0000;
 }
 
 .logo h4 {
   font-family: 'Permanent Marker', cursive;
-  color: #E7153A;
+  color: #ff0000;
   margin-bottom: 0;
   font-size: 35px;
 }
@@ -82,7 +82,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #F52C4C;
+  background-color: #ff0000;
   border-radius: 5px;
 }
 
@@ -100,20 +100,20 @@ hr {
   margin-top: 1rem;
   margin-bottom: 1rem;
   border: 0;
-  border-top: 1px solid #F52C4C;
+  border-top: 1px solid #ff0000;
   margin-left: 30px;
   margin-right: 30px;
 }
 
 .vertical {
-  border-left: 1px solid #F52C4C;
+  border-left: 1px solid #ff0000;
   height: 100%;
   position: absolute;
   left: 24.6%;
 }
 
 .vertical2 {
-  border-left: 1px solid #F52C4C;
+  border-left: 1px solid #ff0000;
   height: 100%;
   position: absolute;
   left: 99.6%;
@@ -152,7 +152,7 @@ hr {
   flex-direction: row;
   padding: 8px;
   border-radius: 50px;
-  background-color: #E7153A;
+  background-color: #ff0000;
   cursor: pointer;
   color: white;
 
@@ -176,7 +176,7 @@ hr {
 }
 
 .cardPost:hover {
-  box-shadow: 0px 0px 25px #E7153A;
+  box-shadow: 0px 0px 25px #ff0000;
 }
 
 .errorPostArea{
@@ -257,7 +257,7 @@ hr {
 }
 
 #like {
-  border-right: 1px solid #E7153A;
+  border-right: 1px solid #ff0000;
 }
 
 #commentError{
@@ -279,7 +279,7 @@ hr {
   margin: 0;
   font-weight: bold;
   margin-left: 5px;
-  color: #E7153A;
+  color: #ff0000;
 }
 
 .likeBtn {
@@ -298,7 +298,7 @@ hr {
   margin-top: 1rem;
   margin-bottom: 1rem;
   border: 0;
-  border-top: 1px solid #F52C4C;
+  border-top: 1px solid #ff0000;
   margin-left: 1px;
   margin-right: 1px;
 }
@@ -317,7 +317,7 @@ hr {
 
 #postBtn {
   border: none;
-  background-color: #E7153A;
+  background-color: #ff0000;
   color: white;
   border-radius: 50%;
   height: 50px;
@@ -331,7 +331,7 @@ hr {
 
 .profile {
   border-radius: 50%;
-  border: 2px solid #E7153A;
+  border: 2px solid #ff0000;
   cursor: pointer;
 }
 
@@ -475,8 +475,8 @@ hr {
 }
 
 .commentInputArea textarea:focus {
-  border-color: #E7153A;
-  color: #E7153A;
+  border-color: #ff0000;
+  color: #ff0000;
 }
 
 .commentInputArea {
@@ -494,7 +494,7 @@ hr {
 }
 
 .commentInputArea button {
-  background-color: #E7153A;
+  background-color: #ff0000;
   color: white;
   border-radius: 10px;
   border: none;
@@ -520,7 +520,7 @@ hr {
 
 .update,
 #close{
-  background-color: #E7153A;
+  background-color: #ff0000;
   color: white;
   border-radius: 10px;
   border: none;
@@ -532,12 +532,12 @@ hr {
 }
 
 .textArea textarea:focus {
-  border: 1px solid #E7153A;
+  border: 1px solid #ff0000;
 }
 
 .commentPost {
   border: none;
-  background-color: #E7153A;
+  background-color: #ff0000;
   color: white;
   height: 40px;
   width: 40px;
@@ -564,7 +564,7 @@ button:focus {
 }
 
 .comment span {
-  color: #E7153A;
+  color: #ff0000;
 }
 
 .commentHide {
@@ -574,7 +574,7 @@ button:focus {
 }
 
 .subMenuForPost {
-  border: 1px solid #E7153A;
+  border: 1px solid #ff0000;
   position: absolute;
   top: 35px;
   background-color: white;
@@ -582,7 +582,7 @@ button:focus {
 }
 
 .subMenuForComment {
-  border: 1px solid #E7153A;
+  border: 1px solid #ff0000;
   position: absolute;
   left: 100%;
   top: 85%;
@@ -591,7 +591,7 @@ button:focus {
 }
 
 .subMenuProfile {
-  border: 1px solid #E7153A;
+  border: 1px solid #ff0000;
   position: absolute;
   right: 3%;
   top: 100%;
@@ -847,7 +847,7 @@ button:focus {
 
 input:focus{
   outline: none !important;
-  border-color: #E7153A;
+  border-color: #ff0000;
 }
 
 .file-upload{

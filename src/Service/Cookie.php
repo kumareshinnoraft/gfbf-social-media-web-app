@@ -66,18 +66,17 @@ class Cookie
    */
   public function getCookie(string $name, object $request)
   {
-
     $cookies = $request->cookies;
     $encodedValue = $cookies->get("user-info");
 
     if (isset($encodedValue)) {
       $decodedValue = $this->cryptography->decode($encodedValue);
-    } else {
-      return FALSE;
+
+      // Deserializing the values
+      $deserializedValue = unserialize($decodedValue);
+      return $deserializedValue[$name];
     }
-    // Deserializing the values
-    $deserializedValue = unserialize($decodedValue);
-    return $deserializedValue[$name];
+    return FALSE;
   }
   /**
    * This function returns if user active or not

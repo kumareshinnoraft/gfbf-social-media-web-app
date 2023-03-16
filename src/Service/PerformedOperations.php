@@ -84,7 +84,7 @@ class PerformedOperations
     $postList = [];
     // Iterating the users list to individual users list.
     foreach ($posts as $post) {
-      $postList[] = [
+      $postList = [
         'userImage' => $post->getUser()->getImageName(),
         'userName'  => $post->getUser()->getFullName(),
         'commentNo' => count($this->comments($post)),
@@ -115,7 +115,7 @@ class PerformedOperations
     $userList = [];
     // Iterating the users list to individual users list.
     foreach ($users as $user) {
-      $userList[] = [
+      $userList = [
         'lastActiveTime' => $user->getLastActiveTime(),
         'img'            => $user->getImageName(),
         'fullName'       => $user->getFullName(),
@@ -135,7 +135,7 @@ class PerformedOperations
    * @return string
    *   This string data is the sanitized string data.
    */
-  public function sanitizeData($data)
+  public function sanitizeData(string $data)
   {
     return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
   }
@@ -154,7 +154,7 @@ class PerformedOperations
   {
     $likes = [];
     foreach ($post->getLikes() as $like) {
-      $likes[] = [
+      $likes = [
         "likes" => $like->getUser()->getEmail()
       ];
     }
@@ -174,7 +174,7 @@ class PerformedOperations
   {
     $comments = [];
     foreach ($post->getComments() as $comment) {
-      $comments[] = [
+      $comments = [
         "imageName" => $comment->getUser()->getImageName(),
         "fullName"  => $comment->getUser()->getFullName(),
         "postId"    => $comment->getPost()->getId(),
@@ -215,6 +215,10 @@ class PerformedOperations
    *
    * @param object $user
    *   This user object contains user information including user profile link.
+   * @param string $hostName
+   *   Host name is require for creating the dynamic link.
+   * @param string $encodedProfileId
+   *   To identify the unique profile id, encoded profile id is required.
    * 
    * @return array
    *   An array of information about the user.

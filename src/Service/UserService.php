@@ -37,6 +37,11 @@ class UserService
    *
    * @param string $email
    *   Email is used as a unique identifier for the database.
+   * @param object $userTable
+   *   User table is the table of the user which will be used for getting 
+   *   values from the table.
+   * @param object $em
+   *   Entity manager interface is used to get the different database table.
    * 
    * @return mixed
    *   This function returns the array of user information and if the user is
@@ -105,7 +110,7 @@ class UserService
 
     $postList = [];
     foreach ($posts as $post) {
-      $postList[] = [
+      $postList = [
         "postId" => $post->getId(),
         "likes" => $this->performOperation->likes($post)
       ];

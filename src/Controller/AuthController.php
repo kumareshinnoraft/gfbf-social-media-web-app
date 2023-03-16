@@ -144,6 +144,7 @@ class AuthController extends AbstractController
       $password = $request->request->get('password');
       $gender   = $request->request->get('gender');
       $userName = substr($email, 0, strrpos($email, '@'));
+      
       $checkUserEmail = $this->userTable->findOneBy(['email' => $email]);
 
       // If mail is already exists show this message.
