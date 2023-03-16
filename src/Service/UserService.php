@@ -110,7 +110,7 @@ class UserService
 
     $postList = [];
     foreach ($posts as $post) {
-      $postList = [
+      $postList[] = [
         "postId" => $post->getId(),
         "likes" => $this->performOperation->likes($post)
       ];

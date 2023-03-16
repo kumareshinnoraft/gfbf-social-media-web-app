@@ -84,7 +84,7 @@ class PerformedOperations
     $postList = [];
     // Iterating the users list to individual users list.
     foreach ($posts as $post) {
-      $postList = [
+      $postList[] = [
         'userImage' => $post->getUser()->getImageName(),
         'userName'  => $post->getUser()->getFullName(),
         'commentNo' => count($this->comments($post)),
@@ -115,7 +115,7 @@ class PerformedOperations
     $userList = [];
     // Iterating the users list to individual users list.
     foreach ($users as $user) {
-      $userList = [
+      $userList[] = [
         'lastActiveTime' => $user->getLastActiveTime(),
         'img'            => $user->getImageName(),
         'fullName'       => $user->getFullName(),
@@ -154,7 +154,7 @@ class PerformedOperations
   {
     $likes = [];
     foreach ($post->getLikes() as $like) {
-      $likes = [
+      $likes[] = [
         "likes" => $like->getUser()->getEmail()
       ];
     }
@@ -174,7 +174,7 @@ class PerformedOperations
   {
     $comments = [];
     foreach ($post->getComments() as $comment) {
-      $comments = [
+      $comments[] = [
         "imageName" => $comment->getUser()->getImageName(),
         "fullName"  => $comment->getUser()->getFullName(),
         "postId"    => $comment->getPost()->getId(),
